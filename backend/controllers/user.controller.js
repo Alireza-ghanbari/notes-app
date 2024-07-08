@@ -32,6 +32,7 @@ export const signup = async (req, res) => {
           fullName,
           email,
         },
+        access_token : token
       });
   } catch (error) {
     res.status(500).json({
@@ -60,6 +61,7 @@ export const signin = async (req, res) => {
           fullName : validUser.fullName,
           email : validUser.email,
         },
+        access_token : token
       });
   } catch (error) {
     res.status(500).json({
