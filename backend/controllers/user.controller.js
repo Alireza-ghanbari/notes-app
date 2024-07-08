@@ -18,7 +18,7 @@ export const signup = async (req, res) => {
       password: bcryptjs.hashSync(password, 10),
     });
 
-    const token = jwt.sign({ newUser }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "30m",
     });
 
@@ -32,7 +32,7 @@ export const signup = async (req, res) => {
           fullName,
           email,
         },
-        access_token : token
+        access_token: token,
       });
   } catch (error) {
     res.status(500).json({
@@ -48,8 +48,9 @@ export const signin = async (req, res) => {
     const validUser = await User.findOne({ email });
     if (!validUser) return res.status(404).json("User not found!");
     const validPassword = bcryptjs.compareSync(password, validUser.password);
-    if (!validPassword) return res.status(401).json("Email or password is wrong");
-    const token = jwt.sign({ validUser }, process.env.JWT_SECRET);
+    if (!validPassword)
+      return res.status(401).json("Email or password is wrong");
+    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
 
     res
       .cookie("access_token", token, { httpOnly: true })
@@ -58,15 +59,15 @@ export const signin = async (req, res) => {
         message: "Login successfully!",
         data: {
           _id: validUser._id,
-          fullName : validUser.fullName,
-          email : validUser.email,
+          fullName: validUser.fullName,
+          email: validUser.email,
         },
-        access_token : token
+        access_token: token,
       });
   } catch (error) {
     res.status(500).json({
-        error: "Internal Server Error",
-        message: error.message,
-      });
+      error: "Internal Server Error",
+      message: error.message,
+    });
   }
 };

@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cors from "cors";
 
 import userRouter from "./routes/user.route.js"
+import noteRouter from "./routes/note.route.js"
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors({ origin: "*" }));
 
 // Routes
 app.use("/api/user", userRouter)
+app.use("/api/note", noteRouter)
 
 
 export default app;
