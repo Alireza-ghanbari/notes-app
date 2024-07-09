@@ -1,6 +1,4 @@
 import Note from "../models/note.model.js";
-import bcryptjs from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 export const addNewNote = async (req, res) => {
   const { title, content, tags } = req.body;
@@ -63,3 +61,18 @@ export const updateNote = async (req, res) => {
     });
   }
 };
+
+export const getAllNote = async (req, res) => {
+  const { id } = req.user;
+  try {
+    const notes = await Note.find({ userId: id }).sort({isPinned: -1})
+
+    res.status(200).json(notes);
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: error.message,
+    });
+  }
+};
+
