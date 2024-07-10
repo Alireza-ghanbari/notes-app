@@ -71,3 +71,26 @@ export const signin = async (req, res) => {
     });
   }
 };
+
+export const getUser = async (req, res) => {
+  const { id } = req.user;
+
+  const validUser = await User.findById(id);
+  if (!validUser) return res.status(404).json("User not found!");
+
+  const {password:pass, _v:v, ...user} = validUser._doc
+
+  res.status(200).json(user);
+};
+
+export const signOut = async (req, res, next) => {
+  try {
+    res.clearCookie('access_token');
+    res.status(200).json('Logout successfully!');
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: error.message,
+    });
+  }
+};
