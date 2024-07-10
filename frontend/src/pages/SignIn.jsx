@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "../components/PasswordInput";
 import { validateEmail } from "../utils/helper";
 
@@ -7,6 +7,8 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,6 +29,36 @@ export default function SignIn() {
     }
 
     setError(null);
+
+    try {
+      const res = await fetch("http://localhost:5000/api/user/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      const data = await res.json();
+
+      if(data.error){
+        setError(data.error)
+      }
+
+      if (data.access_token) {
+        localStorage.setItem("token", data.access_token);
+        navigate("/dashboard");
+      }
+
+    } catch (error) {
+      if (data) {
+        setError(error);
+      } else {
+        setError("An unexpected error occurred. please try again later");
+      }
+    }
   };
 
   return (
@@ -61,7 +93,6 @@ export default function SignIn() {
                 Create an Account
               </Link>
             </p>
-
           </form>
         </div>
       </div>
