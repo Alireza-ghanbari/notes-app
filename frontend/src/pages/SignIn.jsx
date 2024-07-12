@@ -31,7 +31,7 @@ export default function SignIn() {
     setError(null);
 
     try {
-      const res = await fetch("http://localhost:5000/api/user/signin", {
+      const res = await fetch("/api/user/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,22 +42,19 @@ export default function SignIn() {
         }),
       });
       const data = await res.json();
-
-      if(data.error){
-        setError(data.error)
+      
+      if (data.error) {
+        setError(data.error);
+        return;
       }
 
       if (data.access_token) {
-        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("access_token", data.access_token);
         navigate("/dashboard");
       }
 
     } catch (error) {
-      if (data) {
-        setError(error);
-      } else {
-        setError("An unexpected error occurred. please try again later");
-      }
+      setError(error.message);
     }
   };
 

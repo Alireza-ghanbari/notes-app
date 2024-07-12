@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NoteCard from "../../components/NoteCard";
 import { MdAdd } from "react-icons/md";
 import AddEditNotes from "./AddEditNotes";
 import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/Navbar";
 
 export default function Home() {
   const [opanAddEditModal, setOpanAddEditModal] = useState({
@@ -11,8 +13,43 @@ export default function Home() {
     data: null,
   });
 
+  const [userInfo, setUserInfo] = useState();
+
+  const navigate = useNavigate();
+
+  const getUserInfo = async () => {
+    try {
+      const res = await fetch("/api/user");
+      const data = await res.json();
+
+      if (data) {
+        setUserInfo(data);
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 401) {
+        const res = await fetch("/api/user/signout");
+        const data = await res.json();
+
+        if (res.ok) {
+          localStorage.clear();
+          navigate("/signin");
+        }
+
+        localStorage.clear();
+        navigate("/signin");
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
   return (
     <>
+      <Navbar userInfo={userInfo} />
+
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
           <NoteCard

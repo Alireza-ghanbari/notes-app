@@ -4,22 +4,30 @@ import ProfileInfo from "./ProfileInfo";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 
-export default function Navbar() {
+export default function Navbar({ userInfo }) {
   const [searchQuery, setsearchQuery] = useState("");
 
   const navigate = useNavigate();
 
-  const OnLogout = () => {
-    navigate("/signin");
+  const OnLogout = async () => {
+    try {
+      const res = await fetch("/api/user/signout");
+      const data = await res.json();
+
+      if (data) {
+        navigate("/signin");
+        localStorage.clear();
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
-  const handleSearch =()=>{
+  const handleSearch = () => {};
 
-  }
-
-  const OnClearSearch=()=>{
-    setsearchQuery("")
-  }
+  const OnClearSearch = () => {
+    setsearchQuery("");
+  };
 
   return (
     <nav className="bg-white flex items-center justify-between px-6 py-2 drop-shadow">
@@ -39,7 +47,7 @@ export default function Navbar() {
         OnClearSearch={OnClearSearch}
       />
 
-      <ProfileInfo OnLogout={OnLogout} />
+      <ProfileInfo userInfo={userInfo} OnLogout={OnLogout} />
     </nav>
   );
 }
