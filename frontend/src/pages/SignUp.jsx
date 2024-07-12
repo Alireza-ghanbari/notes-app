@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "../components/PasswordInput";
 import { validateEmail } from "../utils/helper";
 
@@ -8,6 +8,8 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -33,6 +35,34 @@ export default function SignUp() {
     }
 
     setError(null);
+
+    try {
+      const res = await fetch("/api/user/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          fullName : name
+        }),
+      });
+      const data = await res.json();
+      
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+
+      if (data.access_token) {
+        localStorage.setItem("access_token", data.access_token);
+        navigate("/dashboard");
+      }
+
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
