@@ -8,6 +8,7 @@ import Navbar from "../../components/Navbar";
 import moment from "moment";
 import toast from "react-hot-toast";
 import { FaTrash } from "react-icons/fa6";
+import EmptyCard from "../../components/EmptyCard";
 
 export default function Home() {
   const [opanAddEditModal, setOpanAddEditModal] = useState({
@@ -73,8 +74,8 @@ export default function Home() {
         setError(data.error);
       }
 
-      toast("Note Deleted Successfully!",{
-        icon: <FaTrash color="red" />
+      toast("Note Deleted Successfully!", {
+        icon: <FaTrash color="red" />,
       });
       getAllNotes();
     } catch (error) {
@@ -92,9 +93,9 @@ export default function Home() {
       <Navbar userInfo={userInfo} />
 
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
-          {allNotes &&
-            allNotes.map((e) => (
+        {allNotes && allNotes.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
+            {allNotes.map((e) => (
               <NoteCard
                 key={e._id}
                 title={e.title}
@@ -111,7 +112,12 @@ export default function Home() {
                 onPinNote={() => {}}
               />
             ))}
-        </div>
+          </div>
+        ) : (
+          <EmptyCard
+            message={`Start creating your first note! Click the 'Add' button to jot down your thoughts, ideas, and reminders. Let's get started!`}
+          />
+        )}
       </div>
 
       <button
