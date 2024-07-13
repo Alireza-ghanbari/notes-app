@@ -16,6 +16,7 @@ export default function SearchBar({
         className="w-full text-[13px] bg-transparent py-[11px] outline-none"
         value={value}
         onChange={onChange}
+        onKeyUp={handleSearch}
       />
 
       {value && (

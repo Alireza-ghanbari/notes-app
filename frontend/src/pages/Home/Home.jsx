@@ -20,6 +20,8 @@ export default function Home() {
   const [userInfo, setUserInfo] = useState();
   const [allNotes, setAllNotes] = useState();
 
+  const [isSearch, setIsSearch] = useState(false);
+
   const navigate = useNavigate();
 
   const handleEdit = (noteDetails) => {
@@ -79,8 +81,26 @@ export default function Home() {
       });
       getAllNotes();
     } catch (error) {
-      setError(error.message);
+      console.log(error.message);
     }
+  };
+
+  const onSearchNote = async (query) => {
+    try {
+      const res = await fetch(`/api/search/search-notes?query=${query}`);
+      const data = await res.json();
+
+      if (data) {
+        setIsSearch(true);
+        setAllNotes(data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setIsSearch(false), getAllNotes();
   };
 
   useEffect(() => {
@@ -90,7 +110,11 @@ export default function Home() {
 
   return (
     <>
-      <Navbar userInfo={userInfo} />
+      <Navbar
+        userInfo={userInfo}
+        onSearchNote={onSearchNote}
+        handleClearSearch={handleClearSearch}
+      />
 
       <div className="container mx-auto">
         {allNotes && allNotes.length > 0 ? (
@@ -115,7 +139,12 @@ export default function Home() {
           </div>
         ) : (
           <EmptyCard
-            message={`Start creating your first note! Click the 'Add' button to jot down your thoughts, ideas, and reminders. Let's get started!`}
+            isSearch={isSearch}
+            message={
+              !isSearch
+                ? `Start creating your first note! Click the 'Add' button to jot down your thoughts, ideas, and reminders. Let's get started!`
+                : `Oops! No notes found matching your search`
+            }
           />
         )}
       </div>

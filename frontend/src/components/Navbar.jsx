@@ -4,7 +4,7 @@ import ProfileInfo from "./ProfileInfo";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "./SearchBar";
 
-export default function Navbar({ userInfo }) {
+export default function Navbar({ userInfo, onSearchNote, handleClearSearch }) {
   const [searchQuery, setsearchQuery] = useState("");
 
   const navigate = useNavigate();
@@ -23,10 +23,15 @@ export default function Navbar({ userInfo }) {
     }
   };
 
-  const handleSearch = () => {};
+  const handleSearch = () => {
+    if(searchQuery){
+      onSearchNote(searchQuery)
+    }
+  };
 
   const OnClearSearch = () => {
     setsearchQuery("");
+    handleClearSearch()
   };
 
   return (
