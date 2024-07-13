@@ -35,13 +35,18 @@ export default function Navbar({ userInfo, onSearchNote, handleClearSearch }) {
   };
 
   return (
-    <nav className="bg-white flex items-center justify-between px-6 py-2 drop-shadow">
-      <h2 className="text-xl font-medium text-black py-2 flex items-center gap-2">
-        <span className="rotate-12">
+    <nav className="bg-white flex items-center justify-between gap-3 xs:gap-0 px-3 sm:px-6 py-2 drop-shadow">
+      <h2 className="sm:text-xl font-medium text-black py-2 items-center gap-2 hidden xs:flex">
+        <span className="rotate-12 scale-90 sm:scale-100 hidden sm:inline-block">
           <GoNote size={18} />
         </span>
-        Daily Notes
+        <span className="inline-block xs:hidden sm:inline-block">Daily Notes</span>
+        <span className="hidden xs:inline-block sm:hidden text-xl">Notes</span>
       </h2>
+
+      <span className="flex xs:hidden">
+          <GoNote size={22} />
+        </span>
 
       <SearchBar
         value={searchQuery}

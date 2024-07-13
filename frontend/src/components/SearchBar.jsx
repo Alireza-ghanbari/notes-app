@@ -9,11 +9,11 @@ export default function SearchBar({
   OnClearSearch,
 }) {
   return (
-    <div className="md:w-80 flex items-center px-4 bg-slate-100 rounded-md">
+    <div className="md:w-80 flex items-center w-32 px-2 sm:w-48 sm:px-4 bg-slate-100 rounded-md">
       <input
         type="text"
         placeholder="Search Notes"
-        className="w-full text-[13px] bg-transparent py-[11px] outline-none"
+        className="w-full text-[13px] bg-transparent py-[11px] outline-none text-xs xs:text-[13px]"
         value={value}
         onChange={onChange}
         onKeyUp={handleSearch}

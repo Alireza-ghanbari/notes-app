@@ -67,7 +67,7 @@ export default function SignUp() {
 
   return (
     <>
-      <div className="flex items-center justify-center mt-28 px-3 xs:px-0">
+      <div className="flex items-center justify-center mt-44 px-3 xs:px-0">
         <div className="w-96 border bg-white px-3 xs:px-7 py-10">
           <form onSubmit={handleSignUp}>
             <h4 className="text-2xl mb-7">SignUp</h4>
@@ -99,7 +99,7 @@ export default function SignUp() {
               Create Account
             </button>
 
-            <p className="text-sm text-center mt-4">
+            <p className="xs:text-sm text-[13px] text-center mt-4">
               Already have an account?{" "}
               <Link to="/signin" className="font-medium text-primary underline">
                 Login

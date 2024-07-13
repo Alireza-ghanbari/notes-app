@@ -142,7 +142,7 @@ export default function Home() {
       <div className="container mx-auto">
         {allNotes && allNotes.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
-            {allNotes.map((e) => (
+            {allNotes && allNotes.map((e) => (
               <NoteCard
                 key={e._id}
                 title={e.title}

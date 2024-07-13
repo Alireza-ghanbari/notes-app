@@ -10,7 +10,7 @@ export default function EmptyCard({ message }) {
         className="w-64"
       />
 
-      <p className="w-1/2 text-md font-medium text-slate-700 text-center leading-7 mt-5">
+      <p className="md:w-1/2 w-full px-4  text-md font-medium text-slate-700 text-center leading-7 mt-5">
         {message}
       </p>
     </div>

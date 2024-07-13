@@ -60,7 +60,7 @@ export default function SignIn() {
 
   return (
     <>
-      <div className="flex items-center justify-center mt-28 px-3 xs:px-0">
+      <div className="flex items-center justify-center mt-44 px-3 xs:px-0">
         <div className="w-96 border bg-white px-3 xs:px-7 py-10">
           <form onSubmit={handleLogin}>
             <h4 className="text-2xl mb-7">Login</h4>
@@ -84,7 +84,7 @@ export default function SignIn() {
               Login
             </button>
 
-            <p className="text-sm text-center mt-4">
+            <p className="xs:text-sm text-[13px] text-center mt-4">
               Not register yet?{" "}
               <Link to="/signup" className="font-medium text-primary underline">
                 Create an Account
