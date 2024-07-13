@@ -2,20 +2,36 @@ import React, { useState } from "react";
 import TagInput from "../../components/TagInput";
 import { MdClose } from "react-icons/md";
 
-export default function AddEditNotes({ onClose, noteData, type }) {
+export default function AddEditNotes({ onClose, noteData, type, getAllNotes }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]);
 
   const [error, setError] = useState(null);
 
-  const addNewNote=async()=>{
-    
-  }
+  const addNewNote = async () => {
+    try {
+      const res = await fetch("/api/note/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, content, tags }),
+      });
+      const data = await res.json();
 
-  const editNote=async()=>{
+      if (data.error) {
+        setError(data.error);
+      }
 
-  }
+      if (data.data) {
+        onClose();
+        getAllNotes();
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const editNote = async () => {};
 
   const handleAddNote = () => {
     if (!title) {
@@ -30,13 +46,12 @@ export default function AddEditNotes({ onClose, noteData, type }) {
 
     setError("");
 
-    if(type === 'edit'){
-        editNote()
-    }else{
-        addNewNote()
+    if (type === "edit") {
+      editNote();
+    } else {
+      addNewNote();
     }
   };
-
 
   return (
     <div className="relative">
