@@ -103,6 +103,29 @@ export default function Home() {
     setIsSearch(false), getAllNotes();
   };
 
+  const updateIsPinned = async (noteData) => {
+    const noteId = noteData._id;
+    try {
+      const res = await fetch(`/api/note/pinned/${noteId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isPinned: !noteData.isPinned }),
+      });
+      const data = await res.json();
+
+      if (data.error) {
+        setError(data.error);
+      }
+
+      if (res.ok) {
+        toast.success("Note Update Successfully!");
+        getAllNotes();
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
     getAllNotes();
     getUserInfo();
@@ -133,7 +156,9 @@ export default function Home() {
                 onDelete={() => {
                   deleteNote(e);
                 }}
-                onPinNote={() => {}}
+                onPinNote={() => {
+                  updateIsPinned(e);
+                }}
               />
             ))}
           </div>
