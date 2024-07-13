@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import TagInput from "../../components/TagInput";
 import { MdClose } from "react-icons/md";
+import toast from "react-hot-toast";
 
 export default function AddEditNotes({ onClose, noteData, type, getAllNotes }) {
   const [title, setTitle] = useState(noteData?.title || "");
@@ -23,6 +24,7 @@ export default function AddEditNotes({ onClose, noteData, type, getAllNotes }) {
       }
 
       if (data.data) {
+        toast.success("Note Added Successfully!")
         onClose();
         getAllNotes();
       }
@@ -46,6 +48,7 @@ export default function AddEditNotes({ onClose, noteData, type, getAllNotes }) {
       }
 
       if (data.data) {
+        toast.success("Note Added Successfully!")
         onClose();
         getAllNotes();
       }
