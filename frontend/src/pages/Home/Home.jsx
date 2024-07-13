@@ -19,6 +19,10 @@ export default function Home() {
 
   const navigate = useNavigate();
 
+  const handleEdit = (noteDetails) => {
+    setOpanAddEditModal({ isShown: true, data: noteDetails, type: "edit" });
+  };
+
   const getUserInfo = async () => {
     try {
       const res = await fetch("/api/user");
@@ -59,7 +63,6 @@ export default function Home() {
     getAllNotes();
     getUserInfo();
   }, []);
-  console.log(allNotes);
 
   return (
     <>
@@ -67,19 +70,20 @@ export default function Home() {
 
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
-          {allNotes && allNotes.map((e) => (
-            <NoteCard
-              key={e._id}
-              title={e.title}
-              date={moment(e.createdAt).format("Do MMM YYYY")}
-              content={e.content}
-              tags={e.tags}
-              isPinned={e.isPinned}
-              onEdit={() => {}}
-              onDelete={() => {}}
-              onPinNote={() => {}}
-            />
-          ))}
+          {allNotes &&
+            allNotes.map((e) => (
+              <NoteCard
+                key={e._id}
+                title={e.title}
+                date={moment(e.createdAt).format("Do MMM YYYY")}
+                content={e.content}
+                tags={e.tags}
+                isPinned={e.isPinned}
+                onEdit={() => {handleEdit(e)}}
+                onDelete={() => {}}
+                onPinNote={() => {}}
+              />
+            ))}
         </div>
       </div>
 

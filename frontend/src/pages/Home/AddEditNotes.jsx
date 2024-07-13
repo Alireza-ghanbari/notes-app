@@ -3,9 +3,9 @@ import TagInput from "../../components/TagInput";
 import { MdClose } from "react-icons/md";
 
 export default function AddEditNotes({ onClose, noteData, type, getAllNotes }) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState([]);
+  const [title, setTitle] = useState(noteData?.title || "");
+  const [content, setContent] = useState(noteData?.content || "");
+  const [tags, setTags] = useState(noteData?.tags || []);
 
   const [error, setError] = useState(null);
 
@@ -31,7 +31,28 @@ export default function AddEditNotes({ onClose, noteData, type, getAllNotes }) {
     }
   };
 
-  const editNote = async () => {};
+  const editNote = async () => {
+    const noteId = noteData._id
+    try {
+      const res = await fetch(`/api/note/update/${noteId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, content, tags }),
+      });
+      const data = await res.json();
+
+      if (data.error) {
+        setError(data.error);
+      }
+
+      if (data.data) {
+        onClose();
+        getAllNotes();
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   const handleAddNote = () => {
     if (!title) {
@@ -96,7 +117,7 @@ export default function AddEditNotes({ onClose, noteData, type, getAllNotes }) {
         className="btn-primary font-medium mt-5 p-3"
         onClick={handleAddNote}
       >
-        ADD
+        {type === "edit" ? "UPDATE" : "ADD"}
       </button>
     </div>
   );
