@@ -5,6 +5,7 @@ import cors from "cors";
 
 import userRouter from "./routes/user.route.js"
 import noteRouter from "./routes/note.route.js"
+import searchRouter from "./routes/search.route.js"
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors({ origin: "*" }));
 // Routes
 app.use("/api/user", userRouter)
 app.use("/api/note", noteRouter)
+app.use("/api/search", searchRouter)
 
 
 export default app;
