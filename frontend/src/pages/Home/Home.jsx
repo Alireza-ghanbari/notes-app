@@ -6,6 +6,8 @@ import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import moment from "moment";
+import toast from "react-hot-toast";
+import { FaTrash } from "react-icons/fa6";
 
 export default function Home() {
   const [opanAddEditModal, setOpanAddEditModal] = useState({
@@ -59,6 +61,27 @@ export default function Home() {
     }
   };
 
+  const deleteNote = async (data) => {
+    const noteId = data._id;
+    try {
+      const res = await fetch(`/api/note/delete/${noteId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+
+      if (data.error) {
+        setError(data.error);
+      }
+
+      toast("Note Deleted Successfully!",{
+        icon: <FaTrash color="red" />
+      });
+      getAllNotes();
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   useEffect(() => {
     getAllNotes();
     getUserInfo();
@@ -79,8 +102,12 @@ export default function Home() {
                 content={e.content}
                 tags={e.tags}
                 isPinned={e.isPinned}
-                onEdit={() => {handleEdit(e)}}
-                onDelete={() => {}}
+                onEdit={() => {
+                  handleEdit(e);
+                }}
+                onDelete={() => {
+                  deleteNote(e);
+                }}
                 onPinNote={() => {}}
               />
             ))}

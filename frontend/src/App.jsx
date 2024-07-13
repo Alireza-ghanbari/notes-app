@@ -18,15 +18,7 @@ export default function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Toaster
-        position="top-right"
-        containerStyle={{
-          top: 75,
-          left: 20,
-          bottom: 20,
-          right: 20,
-        }}
-      />
+      <Toaster position="top-center" />
     </BrowserRouter>
   );
 }
