@@ -138,10 +138,9 @@ export default function Home() {
         onSearchNote={onSearchNote}
         handleClearSearch={handleClearSearch}
       />
-
-      <div className="container mx-auto">
+      <div className="container mx-auto px-1 xs:px-2 md:px-10 pb-24">
         {allNotes && allNotes.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
             {allNotes && allNotes.map((e) => (
               <NoteCard
                 key={e._id}
@@ -175,7 +174,7 @@ export default function Home() {
       </div>
 
       <button
-        className="w-16 h-16 flex items-center justify-center rounded-2xl bg-primary hover:opacity-95 absolute right-10 bottom-10"
+        className="sm:w-16 sm:h-16 h-12 w-12 flex items-center justify-center rounded-2xl bg-primary hover:opacity-95 fixed right-2 xs:right-5 bottom-8 xs:bottom-10 z-10"
         onClick={() => {
           setOpanAddEditModal({ isShown: true, type: "add", data: null });
         }}
@@ -192,7 +191,7 @@ export default function Home() {
           },
         }}
         contentLabel=""
-        className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5"
+        className="w-5/6 md:w-4/5 lg:w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5"
       >
         <AddEditNotes
           type={opanAddEditModal.type}

@@ -16,8 +16,8 @@ export default function NoteCard({
       className="border rounded p-4 bg-white hover:shadow-lg transition-all ease-in"
     >
       <div className="flex items-center justify-between">
-        <div className="">
-          <h6 className="text-sm font-medium">{title}</h6>
+        <div className="w-5/6">
+          <h6 className="text-sm font-medium tracking-tight xs:tracking-normal">{title}</h6>
           <span className="text-xs text-slate-500">{date}</span>
         </div>
 
@@ -27,12 +27,12 @@ export default function NoteCard({
         />
       </div>
 
-      <p className="text-xs text-slate-600 mt-2">{content?.slice(0, 60)}</p>
+      <p className="text-xs text-slate-600 mt-2 tracking-tight xs:tracking-normal">{content}</p>
 
       <div className="flex items-center justify-between mt-2">
         <div className="text-xs text-slate-500">{tags.map(e=> `#${e}  `)}</div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-3">
           <MdCreate
             className="icon-btn hover:text-green-600"
             onClick={onEdit}

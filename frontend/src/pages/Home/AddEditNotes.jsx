@@ -90,7 +90,7 @@ export default function AddEditNotes({ onClose, noteData, type, getAllNotes }) {
         <label className="input-label">TITLE</label>
         <input
           type="text"
-          className="text-2xl text-slate-950 outline-none"
+          className="xs:text-2xl text-lg text-slate-950 outline-none"
           placeholder="Go To Gym At 5"
           value={title}
           onChange={({ target }) => setTitle(target.value)}
