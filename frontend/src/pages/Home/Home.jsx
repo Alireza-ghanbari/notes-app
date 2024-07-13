@@ -5,6 +5,7 @@ import AddEditNotes from "./AddEditNotes";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import moment from "moment";
 
 export default function Home() {
   const [opanAddEditModal, setOpanAddEditModal] = useState({
@@ -14,6 +15,7 @@ export default function Home() {
   });
 
   const [userInfo, setUserInfo] = useState();
+  const [allNotes, setAllNotes] = useState();
 
   const navigate = useNavigate();
 
@@ -42,9 +44,22 @@ export default function Home() {
     }
   };
 
+  const getAllNotes = async () => {
+    try {
+      const res = await fetch("api/note");
+      const data = await res.json();
+
+      setAllNotes(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
+    getAllNotes();
     getUserInfo();
   }, []);
+  console.log(allNotes);
 
   return (
     <>
@@ -52,16 +67,19 @@ export default function Home() {
 
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
-          <NoteCard
-            title={"gym at 5am"}
-            date={"3rd Apr 2024"}
-            content={"gym at 5am"}
-            tags={"gym"}
-            isPinned={true}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
+          {allNotes && allNotes.map((e) => (
+            <NoteCard
+              key={e._id}
+              title={e.title}
+              date={moment(e.createdAt).format("Do MMM YYYY")}
+              content={e.content}
+              tags={e.tags}
+              isPinned={e.isPinned}
+              onEdit={() => {}}
+              onDelete={() => {}}
+              onPinNote={() => {}}
+            />
+          ))}
         </div>
       </div>
 
