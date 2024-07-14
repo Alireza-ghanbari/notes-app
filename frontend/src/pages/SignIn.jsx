@@ -50,7 +50,7 @@ export default function SignIn() {
 
       if (data.access_token) {
         localStorage.setItem("access_token", data.access_token);
-        navigate("/dashboard");
+        navigate("/");
       }
 
     } catch (error) {

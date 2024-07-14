@@ -10,6 +10,10 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+      <Route
+          exact path="/"
+          element={token ? <Home /> : <Navigate to={"/signin"} />}
+        />
         <Route
           path="/dashboard"
           element={token ? <Home /> : <Navigate to={"/signin"} />}
