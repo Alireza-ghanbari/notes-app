@@ -42,17 +42,16 @@ export default function SignIn() {
         }),
       });
       const data = await res.json();
-      
+
       if (data.error) {
         setError(data.error);
         return;
       }
 
       if (data.access_token) {
-        localStorage.setItem("access_token", data.access_token);
         navigate("/");
+        localStorage.setItem("access_token", data.access_token);
       }
-
     } catch (error) {
       setError(error.message);
     }
